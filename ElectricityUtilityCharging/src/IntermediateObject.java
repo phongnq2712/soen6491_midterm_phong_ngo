@@ -78,7 +78,7 @@ public abstract class IntermediateObject extends Object {
 		return charge(usage, start, end);
 	}
 	
-	protected Dollars calculateDifferentResult(int usage, Dollars result) {
+	protected Dollars calculateRemainingResult(int usage, Dollars result) {
 		result = result.plus(result.times(TAX_RATE));
 		Dollars fuel = new Dollars(usage * 0.0175);
 		result = result.plus(fuel);

@@ -18,7 +18,7 @@ public class ResidentialSite extends IntermediateObject {
 
 	protected Dollars charge(int usage, Date start, Date end) {
 		Dollars result = _zone.calculateSameResult(start, end, usage);
-		return calculateDifferentResult(usage, result);
+		return calculateRemainingResult(usage, result);
 	}
 
 	public int dayOfYear(Date arg) {

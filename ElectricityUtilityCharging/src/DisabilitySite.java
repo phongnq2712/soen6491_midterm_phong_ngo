@@ -22,7 +22,7 @@ public class DisabilitySite extends IntermediateObject {
 		int usage = Math.min(fullUsage, CAP);
 		Dollars result = _zone.calculateSameResult(start, end, usage);
 		result = result.plus(new Dollars (Math.max(fullUsage - usage, 0) * 0.062));
-		result = calculateDifferentResult(fullUsage, result).minus(FUEL_TAX_CAP).max(Dollars.ZERO);
+		result = calculateRemainingResult(fullUsage, result).minus(FUEL_TAX_CAP).max(Dollars.ZERO);
 		return result;
 	}
 
