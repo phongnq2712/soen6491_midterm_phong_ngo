@@ -33,27 +33,7 @@ public class DisabilitySite extends IntermediateObject {
 	}
 
 	private double summerFraction(Date start, Date end) {
-		double summerFraction;
-		if (start.after(_zone.summerEnd()) || end.before(_zone.summerStart()))
-			summerFraction = 0;
-		else if (!start.before(_zone.summerStart()) && !start.after(_zone.summerEnd())
-				&& !end.before(_zone.summerStart()) && !end.after(_zone.summerEnd()))
-			summerFraction = 1;
-		else {
-			double summerDays = summerDays(start, end);
-			summerFraction = summerDays / (dayOfYear(end) - dayOfYear(start) + 1);
-		}
-		return summerFraction;
-	}
-
-	private double summerDays(Date start, Date end) {
-		double summerDays;
-		if (start.before(_zone.summerStart()) || start.after(_zone.summerEnd())) {
-			summerDays = dayOfYear(end) - dayOfYear(_zone.summerStart()) + 1;
-		} else {
-			summerDays = dayOfYear(_zone.summerEnd()) - dayOfYear(start) + 1;
-		}
-		return summerDays;
+		return _zone.summerFraction(start, end);
 	}
 
 	public int dayOfYear(Date arg) {
