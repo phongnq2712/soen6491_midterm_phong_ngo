@@ -13,17 +13,10 @@ public class ResidentialSite extends IntermediateObject {
 	}
 
 	public Dollars charge() {
-		// find last reading
-		int i = 0;
-		while (_readings[i] != null) i++;
-		int usage = _readings[i-1].amount() - _readings[i-2].amount();
-		Date end = _readings[i-1].date();
-		Date start = _readings[i-2].date();
-		start.setDate(start.getDate() + 1); //set to begining of period
-		return charge(usage, start, end);
+		return chargeBase();
 	}
 
-	private Dollars charge(int usage, Date start, Date end) {
+	protected Dollars charge(int usage, Date start, Date end) {
 		Dollars result;
 		double summerFraction;
 		// Find out how much of period is in the summer

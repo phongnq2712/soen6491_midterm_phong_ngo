@@ -15,16 +15,10 @@ public class DisabilitySite extends IntermediateObject {
 	}
 
 	public Dollars charge() {
-		int i;
-		for (i = 0; _readings[i] != null; i++);
-		int usage = _readings[i-1].amount() - _readings[i-2].amount();
-		Date end = _readings[i-1].date();
-		Date start = _readings[i-2].date();
-		start.setDate(start.getDate() + 1); //set to begining of period
-		return charge(usage, start, end);
+		return chargeBase();
 	}
 
-	private Dollars charge(int fullUsage, Date start, Date end) {
+	protected Dollars charge(int fullUsage, Date start, Date end) {
 		Dollars result;
 		double summerFraction;
 		int usage = Math.min(fullUsage, CAP);
