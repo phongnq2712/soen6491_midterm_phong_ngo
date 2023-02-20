@@ -19,21 +19,11 @@ public class DisabilitySite extends IntermediateObject {
 	}
 
 	protected Dollars charge(int fullUsage, Date start, Date end) {
-		Dollars result;
-		double summerFraction = summerFraction(start, end);
 		int usage = Math.min(fullUsage, CAP);
-		result = new Dollars ((usage * _zone.summerRate() * summerFraction) +
-				(usage * _zone.winterRate() * (1 - summerFraction)));
+		Dollars result = _zone.calculateSameResult(start, end, usage);
 		result = result.plus(new Dollars (Math.max(fullUsage - usage, 0) * 0.062));
-		result = result.plus(result.times(TAX_RATE));
-		Dollars fuel = new Dollars(fullUsage * 0.0175);
-		result = result.plus(fuel);
-		result = result.plus(fuel.times(TAX_RATE).minus(FUEL_TAX_CAP)).max(Dollars.ZERO);
+		result = calculateDifferentResult(fullUsage, result).minus(FUEL_TAX_CAP).max(Dollars.ZERO);
 		return result;
-	}
-
-	private double summerFraction(Date start, Date end) {
-		return _zone.summerFraction(start, end);
 	}
 
 	public int dayOfYear(Date arg) {

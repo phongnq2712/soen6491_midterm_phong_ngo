@@ -1,6 +1,7 @@
 import java.util.Date;
 
 public abstract class IntermediateObject extends Object {
+	private static final double TAX_RATE = 0.05;
 	public IntermediateObject() {
 		super();
 	}
@@ -75,5 +76,13 @@ public abstract class IntermediateObject extends Object {
 		Date start = _readings[i - 2].date();
 		start.setDate(start.getDate() + 1);
 		return charge(usage, start, end);
+	}
+	
+	protected Dollars calculateDifferentResult(int usage, Dollars result) {
+		result = result.plus(result.times(TAX_RATE));
+		Dollars fuel = new Dollars(usage * 0.0175);
+		result = result.plus(fuel);
+		result = result.plus(fuel.times(TAX_RATE));
+		return result;
 	}
 }

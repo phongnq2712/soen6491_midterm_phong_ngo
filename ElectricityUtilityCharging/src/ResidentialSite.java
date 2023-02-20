@@ -1,7 +1,7 @@
 import java.util.Date;
 
 public class ResidentialSite extends IntermediateObject {
-	private static final double TAX_RATE = 0.05;
+	
 	private Zone _zone;
 
 	ResidentialSite (Zone zone) {
@@ -17,19 +17,8 @@ public class ResidentialSite extends IntermediateObject {
 	}
 
 	protected Dollars charge(int usage, Date start, Date end) {
-		Dollars result;
-		double summerFraction = summerFraction(start, end);
-		result = new Dollars ((usage * _zone.summerRate() * summerFraction) +
-				(usage * _zone.winterRate() * (1 - summerFraction)));
-		result = result.plus(result.times(TAX_RATE));
-		Dollars fuel = new Dollars(usage * 0.0175);
-		result = result.plus(fuel);
-		result = result.plus(fuel.times(TAX_RATE));
-		return result;
-	}
-
-	private double summerFraction(Date start, Date end) {
-		return _zone.summerFraction(start, end);
+		Dollars result = _zone.calculateSameResult(start, end, usage);
+		return calculateDifferentResult(usage, result);
 	}
 
 	public int dayOfYear(Date arg) {

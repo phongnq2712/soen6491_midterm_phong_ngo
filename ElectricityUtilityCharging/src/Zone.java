@@ -1,6 +1,6 @@
 import java.util.Date;
 
-public class Zone {
+public class Zone extends IntermediateObject {
 	private String _name;
 	private Date _summerEnd;
 	private Date _summerStart;
@@ -43,5 +43,43 @@ public class Zone {
 
 	public double summerRate() {
 		return _summerRate;
+	}
+	
+	protected double summerFraction(Date start, Date end) {
+		double summerFraction;
+		if (start.after(this.summerEnd()) || end.before(this.summerStart()))
+			summerFraction = 0;
+		else if (!start.before(this.summerStart()) && !start.after(this.summerEnd())
+				&& !end.before(this.summerStart()) && !end.after(this.summerEnd()))
+			summerFraction = 1;
+		else {
+			double summerDays = summerDays(start, end);
+			summerFraction = summerDays / (dayOfYear(end) - dayOfYear(start) + 1);
+		}
+		return summerFraction;
+	}
+	
+	protected double summerDays(Date start, Date end) {
+		double summerDays;
+		if (start.before(this.summerStart()) || start.after(this.summerEnd())) {
+			summerDays = dayOfYear(end) - dayOfYear(this.summerStart()) + 1;
+		} else {
+			summerDays = dayOfYear(this.summerEnd()) - dayOfYear(start) + 1;
+		}
+		return summerDays;
+	}
+
+	@Override
+	protected Dollars charge(int fullUsage, Date start, Date end) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	protected Dollars calculateSameResult(Date start, Date end, int usage) {
+		Dollars result;
+		double summerFraction = summerFraction(start, end);
+		result = new Dollars ((usage * this.summerRate() * summerFraction) +
+				(usage * this.winterRate() * (1 - summerFraction)));
+		return result;
 	}
 }
