@@ -1,7 +1,6 @@
 import java.util.Date;
 
-public class DisabilitySite {
-	private Reading[] _readings = new Reading[1000];
+public class DisabilitySite extends IntermediateObject {
 	private static final Dollars FUEL_TAX_CAP = new Dollars (0.10);
 	private static final double TAX_RATE = 0.05;
 	private Zone _zone;
@@ -12,9 +11,7 @@ public class DisabilitySite {
 	}
 
 	public void addReading(Reading newReading) {
-		int i;
-		for (i = 0; _readings[i] != null; i++);
-		_readings[i] = newReading;
+		addReadingBase(newReading);
 	}
 
 	public Dollars charge() {

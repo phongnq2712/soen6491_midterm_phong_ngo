@@ -1,7 +1,6 @@
 import java.util.Date;
 
-public class ResidentialSite {
-	private Reading[] _readings = new Reading[1000];
+public class ResidentialSite extends IntermediateObject {
 	private static final double TAX_RATE = 0.05;
 	private Zone _zone;
 
@@ -10,10 +9,7 @@ public class ResidentialSite {
 	}
 
 	public void addReading(Reading newReading) {
-		// add reading to end of array
-		int i = 0;
-		while (_readings[i] != null) i++;
-		_readings[i] = newReading;
+		addReadingBase(newReading);
 	}
 
 	public Dollars charge() {
